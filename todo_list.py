@@ -1,8 +1,10 @@
+# To-Do List GUI based programmed using tkinter
+
 import tkinter as tk
 from tkinter import messagebox, filedialog, simpledialog
-import sqlite3
+import sqlite3 # All the info of todo list will be saved in sqlite database
 
-conn = sqlite3.connect('todo_list.db')
+conn = sqlite3.connect('todo_list.db') # this file will be created for data
 c = conn.cursor()
 
 c.execute('''CREATE TABLE IF NOT EXISTS tasks (
@@ -58,6 +60,7 @@ class ToDoApp:
         export_button = tk.Button(self.root, text="Save To File", command=self.save_to_file, font=("Arial", 12), width=16)
         export_button.pack(pady=10)
 
+# Add task Button
     def add_task(self):
         task = simpledialog.askstring("Input", "Enter the task:", parent=self.root)
         if task:
@@ -68,6 +71,7 @@ class ToDoApp:
             except sqlite3.Error as e:
                 messagebox.showerror("Database Error", str(e))
 
+# Delete task button
     def delete_task(self):
         selected_task = self.task_listbox.curselection()
         if selected_task:
@@ -81,6 +85,7 @@ class ToDoApp:
         else:
             messagebox.showwarning("Selection Error", "Please select a task to delete.")
 
+# Edit task button
     def edit_task(self):
         selected_task = self.task_listbox.curselection()
         if selected_task:
@@ -96,6 +101,7 @@ class ToDoApp:
         else:
             messagebox.showwarning("Selection Error", "Please select a task to edit.")
 
+# Mark Done button
     def mark_done(self):
         selected_task = self.task_listbox.curselection()
         if selected_task:
@@ -109,6 +115,7 @@ class ToDoApp:
         else:
             messagebox.showwarning("Selection Error", "Please select a task to mark as done.")
 
+# Save to file button
     def save_to_file(self):
         tasks = self.task_listbox.get(0, tk.END)
         if tasks:
